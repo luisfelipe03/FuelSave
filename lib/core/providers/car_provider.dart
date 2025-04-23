@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:fuelsave/core/enum/provider_state.dart';
 import '../database/database_helper.dart';
 import '../models/car_model.dart';
-
-enum ProviderState { Idle, Loading, Success, Error }
 
 class CarProvider extends ChangeNotifier {
   final DatabaseHelper _dbHelper = DatabaseHelper();
