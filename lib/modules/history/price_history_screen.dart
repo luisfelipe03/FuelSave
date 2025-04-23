@@ -51,46 +51,46 @@ class _PriceHistoryScreenState extends State<PriceHistoryScreen> {
     );
   }
 
-  Future<void> _showDateRangeSelector() async {
-    final now = DateTime.now();
-    final firstDate = DateTime(now.year - 5, now.month, now.day);
-    final initialRange =
-        _selectedDateRange ??
-        DateTimeRange(start: now.subtract(const Duration(days: 30)), end: now);
+  // Future<void> _showDateRangeSelector() async {
+  //   final now = DateTime.now();
+  //   final firstDate = DateTime(now.year - 5, now.month, now.day);
+  //   final initialRange =
+  //       _selectedDateRange ??
+  //       DateTimeRange(start: now.subtract(const Duration(days: 30)), end: now);
 
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      initialDateRange: initialRange,
-      firstDate: firstDate,
-      lastDate: now,
-      locale: const Locale('pt', 'BR'),
-      helpText: 'Selecione o intervalo de datas',
-      cancelText: 'Cancelar',
-      confirmText: 'Confirmar',
-      builder:
-          (context, child) => Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                primary: Theme.of(context).colorScheme.primary,
-                onPrimary: Theme.of(context).colorScheme.onPrimary,
-                surface: Theme.of(context).colorScheme.surface,
-                onSurface: Theme.of(context).colorScheme.onSurface,
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-            child: child!,
-          ),
-    );
+  //   final DateTimeRange? picked = await showDateRangePicker(
+  //     context: context,
+  //     initialDateRange: initialRange,
+  //     firstDate: firstDate,
+  //     lastDate: now,
+  //     locale: const Locale('pt', 'BR'),
+  //     helpText: 'Selecione o intervalo de datas',
+  //     cancelText: 'Cancelar',
+  //     confirmText: 'Confirmar',
+  //     builder:
+  //         (context, child) => Theme(
+  //           data: Theme.of(context).copyWith(
+  //             colorScheme: ColorScheme.light(
+  //               primary: Theme.of(context).colorScheme.primary,
+  //               onPrimary: Theme.of(context).colorScheme.onPrimary,
+  //               surface: Theme.of(context).colorScheme.surface,
+  //               onSurface: Theme.of(context).colorScheme.onSurface,
+  //             ),
+  //             textButtonTheme: TextButtonThemeData(
+  //               style: TextButton.styleFrom(
+  //                 foregroundColor: Theme.of(context).colorScheme.primary,
+  //               ),
+  //             ),
+  //           ),
+  //           child: child!,
+  //         ),
+  //   );
 
-    if (picked != null && picked != _selectedDateRange) {
-      setState(() => _selectedDateRange = picked);
-      _refreshHistory();
-    }
-  }
+  //   if (picked != null && picked != _selectedDateRange) {
+  //     setState(() => _selectedDateRange = picked);
+  //     _refreshHistory();
+  //   }
+  // }
 
   void _clearDateFilter() {
     if (_selectedDateRange != null) {
@@ -248,14 +248,14 @@ class _PriceHistoryScreenState extends State<PriceHistoryScreen> {
               tooltip: 'Limpar filtro de data',
               onPressed: _clearDateFilter,
             ),
-          IconButton(
-            icon: const Icon(Icons.calendar_month),
-            tooltip: 'Filtrar por data',
-            onPressed:
-                historyProvider.state == ProviderState.Loading
-                    ? null
-                    : _showDateRangeSelector,
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.calendar_month),
+          //   tooltip: 'Filtrar por data',
+          //   onPressed:
+          //       historyProvider.state == ProviderState.Loading
+          //           ? null
+          //           : _showDateRangeSelector,
+          // ),
           if (historyProvider.priceHistory.isNotEmpty &&
               historyProvider.state != ProviderState.Loading)
             IconButton(
