@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onBackground,
+                color: theme.colorScheme.onSurface,
               ),
             ),
             
@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
               'Economize com cada gota',
               style: TextStyle(
                 fontSize: 16,
-                color: theme.colorScheme.onBackground.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withOpacity(0.7),
               ),
             ),
 
@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
             // Indicador de carregamento
             CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(
-                theme.colorScheme.onBackground.withOpacity(0.5)
+                theme.colorScheme.onSurface.withOpacity(0.5)
               ),
             ),
           ],
