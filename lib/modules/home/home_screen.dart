@@ -20,13 +20,14 @@ class HomeScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       appBar: AppBar(title: const Text('FuelSave')),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'calculate_fab',
         icon: const Icon(Icons.calculate),
         label: const Text('Calcular'),
         tooltip: 'Calcular Gasolina x Etanol',
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => CalculatorScreen()),
+            MaterialPageRoute(builder: (_) => const CalculatorScreen()),
           );
         },
       ),
@@ -55,6 +56,19 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (_) => const AddEditCarScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  if (carProvider.cars.isEmpty)
+                    TextButton.icon(
+                      icon: const Icon(Icons.calculate_outlined, size: 18),
+                      label: const Text('Calcular'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const CalculatorScreen(),
                           ),
                         );
                       },
@@ -129,17 +143,27 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 64.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.directions_car,
+                Icons.no_transfer_rounded,
                 size: 48,
                 color: Theme.of(context).colorScheme.outline,
               ),
               const SizedBox(height: 16),
               const Text(
-                'Nenhum veículo cadastrado\n\nToque no botão "+" para adicionar seu primeiro veículo.',
+                'Nenhum veículo cadastrado.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Toque no botão "+" no canto superior direito para adicionar.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
               ),
             ],
           ),
@@ -150,7 +174,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildCarListView(BuildContext context, List<CarModel> cars) {
     return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 80.0),
       itemCount: cars.length,
       itemBuilder: (context, index) {
         final car = cars[index];
@@ -164,15 +188,12 @@ class HomeScreen extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Detalhes/Calcular para: ${car.name}')),
-          );
-        },
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.fromLTRB(12, 12, 4, 12),
           child: Row(
             children: [
               Container(
@@ -198,6 +219,8 @@ class HomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -209,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Gas: ${car.gasConsumption.toStringAsFixed(1)} km/L',
+                          'G: ${car.gasConsumption.toStringAsFixed(1)} km/L',
                           style: TextStyle(
                             fontSize: 12,
                             color: Theme.of(context).colorScheme.outline,
@@ -223,7 +246,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Eta: ${car.ethanolConsumption.toStringAsFixed(1)} km/L',
+                          'E: ${car.ethanolConsumption.toStringAsFixed(1)} km/L',
                           style: TextStyle(
                             fontSize: 12,
                             color: Theme.of(context).colorScheme.outline,
@@ -240,8 +263,11 @@ class HomeScreen extends StatelessWidget {
                 onSelected: (String result) async {
                   switch (result) {
                     case 'edit':
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Editar: ${car.name}')),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AddEditCarScreen(carToEdit: car),
+                        ),
                       );
                       break;
                     case 'delete':
@@ -251,7 +277,7 @@ class HomeScreen extends StatelessWidget {
                             (BuildContext dialogContext) => AlertDialog(
                               title: const Text('Confirmar Exclusão'),
                               content: Text(
-                                'Tem certeza que deseja excluir o veículo "${car.name}"?',
+                                'Tem certeza que deseja excluir o veículo "${car.name}"? Seus históricos de abastecimento também serão perdidos.',
                               ),
                               actions: <Widget>[
                                 TextButton(
@@ -291,6 +317,14 @@ class HomeScreen extends StatelessWidget {
                                   Theme.of(context).colorScheme.error,
                             ),
                           );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Veículo ${car.name} excluído com sucesso!',
+                              ),
+                            ),
+                          );
                         }
                       }
                       break;
@@ -301,14 +335,14 @@ class HomeScreen extends StatelessWidget {
                       const PopupMenuItem<String>(
                         value: 'edit',
                         child: ListTile(
-                          leading: Icon(Icons.edit),
+                          leading: Icon(Icons.edit_outlined),
                           title: Text('Editar'),
                         ),
                       ),
                       const PopupMenuItem<String>(
                         value: 'delete',
                         child: ListTile(
-                          leading: Icon(Icons.delete),
+                          leading: Icon(Icons.delete_outline),
                           title: Text('Excluir'),
                         ),
                       ),
