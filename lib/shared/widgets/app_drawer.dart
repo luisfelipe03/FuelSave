@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuelsave/modules/calculator/calculator_screen.dart';
+import 'package:fuelsave/modules/history/refuel_history_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -41,11 +42,15 @@ class AppDrawer extends StatelessWidget {
                   context: context,
                   icon: Icons.local_gas_station,
                   title: 'Abastecimentos',
-                  onTap:
-                      () => _showNotImplementedMessage(
-                        context,
-                        'Histórico de Abastecimentos',
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RefuelHistoryScreen(),
                       ),
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context: context,
