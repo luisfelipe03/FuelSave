@@ -47,32 +47,18 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  if (carProvider.cars.isNotEmpty)
-                    TextButton.icon(
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text('Adicionar'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AddEditCarScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  if (carProvider.cars.isEmpty)
-                    TextButton.icon(
-                      icon: const Icon(Icons.calculate_outlined, size: 18),
-                      label: const Text('Calcular'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const CalculatorScreen(),
-                          ),
-                        );
-                      },
-                    ),
+                  TextButton.icon(
+                    icon: const Icon(Icons.add, size: 18),
+                    label: const Text('Adicionar'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AddEditCarScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -146,7 +132,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.no_transfer_rounded,
+                Icons.car_crash,
                 size: 48,
                 color: Theme.of(context).colorScheme.outline,
               ),
