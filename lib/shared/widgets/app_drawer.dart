@@ -146,17 +146,6 @@ class AppDrawer extends StatelessWidget {
     Navigator.pushNamed(context, routeName);
   }
 
-  void _showNotImplementedMessage(BuildContext context, String featureName) {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$featureName não implementado'),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
-  }
-
   void _showAboutDialog(BuildContext context) {
     Navigator.pop(context);
     showDialog(
