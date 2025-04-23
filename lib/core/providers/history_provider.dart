@@ -14,20 +14,46 @@ class HistoryProvider extends ChangeNotifier {
   String? _errorMessage;
 
   List<PriceRecordModel> get priceHistory => List.unmodifiable(_priceHistory);
-  List<RefuelRecordModel> get refuelHistory => List.unmodifiable(_refuelHistory);
+  List<RefuelRecordModel> get refuelHistory =>
+      List.unmodifiable(_refuelHistory);
   ProviderState get state => _state;
   String? get errorMessage => _errorMessage;
 
-  Future<void> loadHistories({int? carId, int? priceLimit, int? refuelLimit}) async {
+  Future<void> loadHistories({
+    int? carId,
+    int? priceLimit,
+    int? refuelLimit,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     _setState(ProviderState.Loading);
     try {
       final results = await Future.wait([
-        _dbHelper.getPriceHistory(limit: priceLimit),
+        _dbHelper.getPriceHistory(
+          limit: priceLimit,
+          startDate: startDate,
+          endDate: endDate,
+        ),
         _dbHelper.getRefuelHistory(carId: carId, limit: refuelLimit),
       ]);
 
-      _priceHistory = results[0] as List<PriceRecordModel>;
-      _refuelHistory = results[1] as List<RefuelRecordModel>;
+      if (results[0] is List<PriceRecordModel>) {
+        _priceHistory = results[0] as List<PriceRecordModel>;
+        print(
+          "Price history loaded: ${_priceHistory.length} (Range: $startDate - $endDate)",
+        );
+      } else {
+        throw Exception("Failed to load price history: Invalid data type.");
+      }
+
+      if (results[1] is List<RefuelRecordModel>) {
+        _refuelHistory = results[1] as List<RefuelRecordModel>;
+        print(
+          "Refuel history loaded: ${_refuelHistory.length} (CarID: $carId)",
+        );
+      } else {
+        throw Exception("Failed to load refuel history: Invalid data type.");
+      }
 
       _setState(ProviderState.Success);
     } catch (e, stackTrace) {
@@ -60,7 +86,11 @@ class HistoryProvider extends ChangeNotifier {
         _setState(ProviderState.Success);
         return true;
       }
-      _handleError("Registro de preço com ID $id não encontrado para deleção.", null, null);
+      _handleError(
+        "Registro de preço com ID $id não encontrado para deleção.",
+        null,
+        null,
+      );
       return false;
     } catch (e, stackTrace) {
       _handleError("Erro ao deletar registro de preço.", e, stackTrace);
@@ -77,7 +107,11 @@ class HistoryProvider extends ChangeNotifier {
         _setState(ProviderState.Success);
         return true;
       }
-      _handleError("Erro inesperado ao deletar todo histórico de preços.", null, null);
+      _handleError(
+        "Erro inesperado ao deletar todo histórico de preços.",
+        null,
+        null,
+      );
       return false;
     } catch (e, stackTrace) {
       _handleError("Erro ao deletar todo histórico de preços.", e, stackTrace);
@@ -94,7 +128,11 @@ class HistoryProvider extends ChangeNotifier {
       _setState(ProviderState.Success);
       return true;
     } catch (e, stackTrace) {
-      _handleError("Erro ao adicionar registro de abastecimento.", e, stackTrace);
+      _handleError(
+        "Erro ao adicionar registro de abastecimento.",
+        e,
+        stackTrace,
+      );
       return false;
     }
   }
@@ -108,7 +146,11 @@ class HistoryProvider extends ChangeNotifier {
         _setState(ProviderState.Success);
         return true;
       }
-      _handleError("Registro de abastecimento com ID $id não encontrado para deleção.", null, null);
+      _handleError(
+        "Registro de abastecimento com ID $id não encontrado para deleção.",
+        null,
+        null,
+      );
       return false;
     } catch (e, stackTrace) {
       _handleError("Erro ao deletar registro de abastecimento.", e, stackTrace);
@@ -129,10 +171,18 @@ class HistoryProvider extends ChangeNotifier {
         _setState(ProviderState.Success);
         return true;
       }
-      _handleError("Erro inesperado ao deletar histórico de abastecimento.", null, null);
+      _handleError(
+        "Erro inesperado ao deletar histórico de abastecimento.",
+        null,
+        null,
+      );
       return false;
     } catch (e, stackTrace) {
-      _handleError("Erro ao deletar histórico de abastecimento.", e, stackTrace);
+      _handleError(
+        "Erro ao deletar histórico de abastecimento.",
+        e,
+        stackTrace,
+      );
       return false;
     }
   }

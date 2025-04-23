@@ -146,17 +146,48 @@ class DatabaseHelper {
     return id;
   }
 
-  Future<List<PriceRecordModel>> getPriceHistory({int? limit}) async {
-    final db = await database;
-    final maps = await db.query(
-      _priceHistoryTable,
-      orderBy: '$_colPriceDate DESC',
-      limit: limit,
-    );
-    return maps.isEmpty
-        ? []
-        : maps.map((e) => PriceRecordModel.fromMap(e)).toList();
+  Future<List<PriceRecordModel>> getPriceHistory({
+  int? limit,
+  DateTime? startDate,
+  DateTime? endDate,
+}) async {
+  final db = await database;
+  String? whereClause;
+  List<dynamic> whereArgs = [];
+
+  // Monta a cláusula WHERE para o intervalo de datas
+  if (startDate != null && endDate != null) {
+    // Adiciona um dia ao endDate para incluir todo o dia final
+    final endOfDayEndDate = endDate.add(const Duration(days: 1));
+    whereClause = '$_colPriceDate >= ? AND $_colPriceDate < ?';
+    // Converte para String ISO8601 para comparação no banco
+    whereArgs.add(startDate.toIso8601String());
+    whereArgs.add(endOfDayEndDate.toIso8601String());
+  } else if (startDate != null) {
+    whereClause = '$_colPriceDate >= ?';
+    whereArgs.add(startDate.toIso8601String());
+  } else if (endDate != null) {
+     final endOfDayEndDate = endDate.add(const Duration(days: 1));
+    whereClause = '$_colPriceDate < ?';
+    whereArgs.add(endOfDayEndDate.toIso8601String());
   }
+
+  final List<Map<String, dynamic>> maps = await db.query(
+    _priceHistoryTable,
+    where: whereClause, // Aplica o filtro de data
+    whereArgs: whereArgs.isNotEmpty ? whereArgs : null, // Passa os argumentos
+    orderBy: '$_colPriceDate DESC', // Mantém a ordem para a lista
+    limit: limit,
+  );
+
+  if (maps.isEmpty) {
+    return [];
+  }
+
+  return List.generate(maps.length, (i) {
+    return PriceRecordModel.fromMap(maps[i]);
+  });
+}
 
   Future<int> deletePriceRecord(int id) async {
     final db = await database;

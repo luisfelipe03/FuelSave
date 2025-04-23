@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuelsave/modules/calculator/calculator_screen.dart';
+import 'package:fuelsave/modules/history/price_history_screen.dart';
 import 'package:fuelsave/modules/history/refuel_history_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -56,21 +57,18 @@ class AppDrawer extends StatelessWidget {
                   context: context,
                   icon: Icons.timeline,
                   title: 'Histórico de Preços',
-                  onTap:
-                      () => _showNotImplementedMessage(
-                        context,
-                        'Histórico de Preços',
+                  onTap: () {
+                    Navigator.pop(context); // Fecha o drawer
+                    Navigator.push(
+                      // Navega para PriceHistoryScreen
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const PriceHistoryScreen(),
                       ),
+                    );
+                  },
                 ),
                 const Divider(height: 1),
-                _buildDrawerItem(
-                  context: context,
-                  icon: Icons.settings,
-                  title: 'Configurações',
-                  onTap:
-                      () =>
-                          _showNotImplementedMessage(context, 'Configurações'),
-                ),
                 _buildDrawerItem(
                   context: context,
                   icon: Icons.info_outline,
