@@ -67,7 +67,7 @@
 - **sqflite** – Banco de dados local
 - **path_provider** & **path** – Manipulação de caminhos
 - **intl** – Formatação de datas e moedas
-- **fl_chart** – Visualização de dados (futuramente)
+- **fl_chart** – Visualização de dados
 
 ---
 
