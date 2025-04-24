@@ -80,7 +80,7 @@
 
 2. **Clone o repositório**
    ```bash
-   git clone https://github.com/seu-usuario/fuelsave.git
+   git clone https://github.com/luisfelipe03/fuelsave.git
    cd fuelsave
    ```
 
