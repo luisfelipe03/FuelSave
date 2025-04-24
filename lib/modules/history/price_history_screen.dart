@@ -472,8 +472,9 @@ class _PriceHistoryScreenState extends State<PriceHistoryScreen> {
                       .map((barSpot) {
                         final recordIndex = barSpot.x.toInt();
                         if (recordIndex < 0 ||
-                            recordIndex >= reversedHistory.length)
+                            recordIndex >= reversedHistory.length) {
                           return null;
+                        }
                         final record = reversedHistory[recordIndex];
                         final fuelName =
                             barSpot.barIndex == 0 ? 'Gasolina' : 'Etanol';
@@ -717,7 +718,7 @@ class _PriceHistoryScreenState extends State<PriceHistoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${record.formattedDate()}',
+                    record.formattedDate(),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.outline,
                     ),
