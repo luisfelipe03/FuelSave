@@ -27,7 +27,7 @@
 
 - 📊 **Histórico de Preços:**  
   Armazene os preços utilizados na calculadora para acompanhar a variação dos valores ao longo do tempo.  
-  *(Melhoria futura: gráficos e filtros por período)*
+  *(Melhoria futura: filtros por período)*
 
 - 🌙 **Interface Moderna e Intuitiva:**  
   Layout limpo e responsivo com suporte ao **tema escuro**, pensado para facilitar o uso no dia a dia.
@@ -42,9 +42,20 @@
 
 ## 📸 Telas
 
-| Tela Inicial            | Calculadora Flex           | Histórico de Abastecimentos | Histórico de Preços |
-|:-----------------------:|:--------------------------:|:----------------------------:|:----------------------------:|
-| ![Home](link_para_screenshot_home.png) | ![Calculadora](link_para_screenshot_calc.png) | ![Histórico](link_para_screenshot_hist.png) | ![Histórico](link_para_screenshot_hist.png) |
+<table>
+  <tr>
+    <th>Tela Inicial</th>
+    <th>Calculadora Flex</th>
+    <th>Histórico de Abastecimentos</th>
+    <th>Histórico de Preços</th>
+  </tr>
+  <tr>
+    <td><img src="assets/readme/home.png" width="250" alt="Tela Inicial" /></td>
+    <td><img src="assets/readme/calculadora.png" width="250" alt="Calculadora Flex" /></td>
+    <td><img src="assets/readme/historico_abast.png" width="250" alt="Histórico de Abastecimentos" /></td>
+    <td><img src="assets/readme/historico_preco.png" width="250" alt="Histórico de Preços" /></td>
+  </tr>
+</table>
 
 ---
 
